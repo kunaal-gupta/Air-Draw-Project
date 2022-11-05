@@ -1,4 +1,5 @@
 import cv2 as cv
+import numpy as np
 
 
 def image_read():
@@ -15,6 +16,10 @@ def video_read():
 
     capture = cv.VideoCapture(0)  # Either path of video file you wanna play or int 0,1,2 for webcam access
 
+    capture.set(3, 630)  # height
+    capture.set(4, 480)  # width
+    capture.set(10, 200)  # brightness
+
     while True:
         isTrue, frame = capture.read()  # Captures the video frame by frame & isTrue bolean indicating whether it's successful or not
         cv.imshow('Video Learning OpenCV', frame)  # Displaying video as a new window (windoow name, img)
@@ -24,8 +29,6 @@ def video_read():
 
     capture.release()
     cv.destroyWindow()  # Destroy all window
-
-
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -64,11 +67,11 @@ def grayscale_blur():
     cv.imshow('Image Learning OpenCV', img)  # Displaying image as a new window (windoow name, img)
 
     # Grayscale
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    gray = cv.cvtColor(img, cv.COLOR_RGB2YCrCb)
     cv.imshow('Gray', gray)
 
     # Blurring image
-    blur = cv.GaussianBlur(img, (7,7), cv.BORDER_DEFAULT)
+    blur = cv.GaussianBlur(img, (7, 7), cv.BORDER_DEFAULT)
     cv.imshow('Blur', blur)
 
     # Edging Cascade
@@ -76,5 +79,46 @@ def grayscale_blur():
     cv.imshow('Edges', edge)
 
     cv.waitKey(0)
-#
-grayscale_blur()
+
+
+def colourdetection():
+    img = cv.imread('Kunaal.jpg')  # reading pixels of image
+
+    def empty(A):
+        pass
+
+    cv.namedWindow('TrackBars')  # New window called trackbar
+    cv.resizeWindow('TrackBars', 640, 240)  # Resizing Window
+
+    # Trackbars (TrackName, WindowName, IntialVal, MaxVal, function
+    cv.createTrackbar('Hue Min', 'TrackBars', 0, 179, empty)
+    cv.createTrackbar('Hue Max', 'TrackBars', 47, 179, empty)
+    cv.createTrackbar('Sat Min', 'TrackBars', 104, 255, empty)
+    cv.createTrackbar('Sat Max', 'TrackBars', 102, 255, empty)
+    cv.createTrackbar('Val Min', 'TrackBars', 0, 255, empty)
+    cv.createTrackbar('Val Max', 'TrackBars', 255, 255, empty)
+
+    while True:
+        imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+
+        #  Getting value of trackbar (TrackbarName, WindowName)
+        HueMin = cv.getTrackbarPos('Hue Min', 'TrackBars')
+        HueMax = cv.getTrackbarPos('Hue Max', 'TrackBars')
+        SatMin = cv.getTrackbarPos('Sat Min', 'TrackBars')
+        SatMax = cv.getTrackbarPos('Sat Max', 'TrackBars')
+        ValMin = cv.getTrackbarPos('Val Min', 'TrackBars')
+        ValMax = cv.getTrackbarPos('Val Max', 'TrackBars')
+
+        print(HueMin, HueMax, SatMin, SatMax, ValMin, ValMax)
+
+        lower = np.array([HueMin, SatMin, ValMin])
+        upper = np.array([HueMax, SatMax, ValMax])
+        mask = cv.inRange(imgHSV, lower, upper)
+        imgResult = cv.bitwise_and(img, img, mask = mask)
+
+        cv.imshow('Image HSV', imgHSV)
+        cv.imshow('Mask', mask)
+        cv.imshow('Result', imgResult)
+
+
+def airPainting():
