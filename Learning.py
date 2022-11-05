@@ -31,6 +31,7 @@ def video_read():
     cv.destroyWindow()  # Destroy all window
 
 
+
 # --------------------------------------------------------------------------------------------------------------------
 def resize(frame, scale):
     """Resizing an image, Video or live video """
@@ -87,8 +88,10 @@ def colourdetection():
     def empty(A):
         pass
 
+
+
     cv.namedWindow('TrackBars')  # New window called trackbar
-    cv.resizeWindow('TrackBars', 640, 240)  # Resizing Window
+    cv.resizeWindow('TrackBars', 340, 240)  # Resizing Window
 
     # Trackbars (TrackName, WindowName, IntialVal, MaxVal, function
     cv.createTrackbar('Hue Min', 'TrackBars', 0, 179, empty)
@@ -120,5 +123,40 @@ def colourdetection():
         cv.imshow('Mask', mask)
         cv.imshow('Result', imgResult)
 
+        cv.waitKey(1)
+
+colourdetection()
+
+
 
 def airPainting():
+
+    capture = cv.VideoCapture(0)  # Either path of video file you wanna play or int 0,1,2 for webcam access
+
+    capture.set(3, 640)  # height
+    capture.set(4, 480)  # width
+    capture.set(10, 130)  # brightness
+
+    while True:
+        isTrue, frame = capture.read()  # Captures the video frame by frame & isTrue bolean indicating whether it's successful or not
+        cv.imshow('Video Learning OpenCV', frame)  # Displaying video as a new window (windoow name, img)
+
+        if cv.waitKey(20) & 0xFF == ord('Q'):  # break the loop if key 'c' is pressed
+            break
+
+    capture.release()
+    cv.destroyWindow()  # Destroy all window
+
+
+
+
+
+
+
+
+
+
+
+
+
+
