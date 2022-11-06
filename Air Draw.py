@@ -52,12 +52,29 @@ def getContours(img):
 
 
 def drawOnCanvus(myPoints, myColorValues):
-    for point_i in range(len(myPoints)):
-        point = myPoints[point_i]
-        cv.circle(imgFlip, (point[0], point[1]), 1, myColorValues[0], 10, lineType=-1)
-        if len(myPoints)>1:
-            prevPoint = myPoints[point_i - 1]
-            cv.line(imgFlip, (point[0], point[1]), (prevPoint[0],prevPoint[1]),  myColorValues[point[2]], 10)
+    for point in myPoints:
+        if point != 'skip':
+            cv.circle(imgFlip, (point[0], point[1]), 1, myColorValues[0], 10, lineType=-1)
+
+    if len(myPoints)>1:
+        if myPoints[-1] != 'skip' and myPoints[-2] != 'skip':
+            last = myPoints[-1]
+            lastS = myPoints[-2]
+            cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]),myColorValues[0], 10)
+        elif len(myPoints) > 2 and myPoints[-2] != 'skip':
+            last = myPoints[-2]
+            lastS = myPoints[-3]
+            cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]), myColorValues[0], 10)
+
+
+def draw_lines(myPoints, myColorValues):
+
+    for index in range(len(myPoints)):
+        if index > 0 and (myPoints[index] != 'skip' and myPoints[index-1] != 'skip'):
+            print(myPoints[index])
+            last = myPoints[index]
+            lastS = myPoints[index-1]
+            cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]), myColorValues[0], 10)
 
 
 
@@ -78,7 +95,7 @@ while True:
 
     if len(myPoints) != 0:
         drawOnCanvus(myPoints, myColorValues)
-
+        draw_lines(myPoints, myColorValues)
 
     cv.imshow('Result', imgFlip)  # Displaying video as a new window (windoow name, img)
     key = cv.waitKey(1) & 0xFF # break the loop if key 'c' is pressed
@@ -86,9 +103,10 @@ while True:
     if key == ord('q'):
         print(myPoints)
         break
-    elif key == ord('w'):
+    elif key == ord('h'):
         if write:
             write = False
+            myPoints.append('skip')
         else:
             write = True
     elif key == ord('c'):
