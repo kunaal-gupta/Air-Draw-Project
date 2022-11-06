@@ -1,15 +1,19 @@
 import cv2 as cv
 import numpy as np
+import pyautogui as pg
 
-capture = cv.VideoCapture(0)
-# cv.flip()# Either path of video file you wanna play or int 0,1,2 for webcam access
+multiplier = 1.1
+capture = cv.VideoCapture(0)  # Either path of video file you wanna play or int 0,1,2 for webcam access
+width, height = pg.size()
+write = False
 
-capture.set(3, 500)  # height
-capture.set(4, 500)  # width
+
+capture.set(3, height)  # height)
+capture.set(4, width)  # width
 capture.set(10, 100)  # brightness
 
 myColors = [[0, 80, 231, 179, 208, 255]]
-
+# [ 98, 67, 182, 125, 255, 255]
 myColorValues = [[51, 53, 255]]
 
 myPoints = []  ## [x, y, colorId]
@@ -19,6 +23,7 @@ def findColor(img, myColors, myColorValuess):
     imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
     count = 0
     newPoints = []
+
     for color in myColors:
         lower = np.array(myColors[0][0:3])
         upper = np.array(myColors[0][3:6])
@@ -47,25 +52,48 @@ def getContours(img):
 
 
 def drawOnCanvus(myPoints, myColorValues):
-    for point in myPoints:
-        cv.circle(imgResult, (point[0], point[1]), 5, myColorValues[point[2]],10, lineType=-1)
+    for point_i in range(len(myPoints)):
+        point = myPoints[point_i]
+        cv.circle(imgFlip, (point[0], point[1]), 1, myColorValues[0], 10, lineType=-1)
+        if len(myPoints)>1:
+            prevPoint = myPoints[point_i - 1]
+            cv.line(imgFlip, (point[0], point[1]), (prevPoint[0],prevPoint[1]),  myColorValues[point[2]], 10)
+
 
 
 while True:
     isTrue, img = capture.read()  # Captures the video frame by frame & isTrue boolean indicating whether it's successful or not
-    imgFlip = cv.flip(img, 1)
     imgResult = img.copy()
-    newPoints = findColor(img, myColors, myColorValues)
-    if len(newPoints) != 0:
-        for newP in newPoints:
-            myPoints.append(newP)
+    imgFlip = cv.flip(imgResult, 1)
+
+    if write:
+        newPoints = findColor(imgFlip, myColors, myColorValues)
+
+        if len(newPoints) != 0:
+            for newP in newPoints:
+                myPoints.append(newP)
+
+                # pg.moveTo(newPoints[0][0]*multiplier, newPoints[0][1]*multiplier)
+                # print(pg.position())
 
     if len(myPoints) != 0:
         drawOnCanvus(myPoints, myColorValues)
 
-    cv.imshow('Result', imgResult)  # Displaying video as a new window (windoow name, img)
-    if cv.waitKey(1) & 0xFF == ord('Q'):  # break the loop if key 'c' is pressed
+
+    cv.imshow('Result', imgFlip)  # Displaying video as a new window (windoow name, img)
+    key = cv.waitKey(1) & 0xFF # break the loop if key 'c' is pressed
+
+    if key == ord('q'):
+        print(myPoints)
         break
+    elif key == ord('w'):
+        if write:
+            write = False
+        else:
+            write = True
+    elif key == ord('c'):
+        myPoints.clear()
+        print(myPoints)
 
 capture.release()
 cv.destroyWindow()  # Destroy all window
