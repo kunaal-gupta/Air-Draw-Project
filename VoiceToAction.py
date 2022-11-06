@@ -48,7 +48,7 @@ class VtoA():
         cv.destroyAllWindows()
 
 def main():
-    obj = VtoA()
+    obj = VtoA()+
     obj.main_run()
 
 main()

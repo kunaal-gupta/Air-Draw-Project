@@ -47,14 +47,25 @@ class WidgetGallery(QDialog):
         layout.addWidget(radioButton3)
         layout.addStretch(1)
 
+        radioButton1.toggled.connect(lambda: self.btnstate(radioButton1))
         radioButton2.toggled.connect(lambda: self.btnstate(radioButton2))
+        radioButton3.toggled.connect(lambda: self.btnstate(radioButton3))
+
 
 
         self.topLeftGroupBox.setLayout(layout)
 
     def btnstate(self, b):
 
-        if b.text() == "Draw in Air":
+        if b.text() == "General Use Cursor":
+            if b.isChecked() == True:
+                Obj = airdraw()
+                Obj.run()
+        elif b.text() == "Draw in Air":
+            if b.isChecked() == True:
+                Obj = airdraw()
+                Obj.run()
+        elif b.text() == "Use voice to action":
             if b.isChecked() == True:
                 Obj = airdraw()
                 Obj.run()

@@ -4,10 +4,9 @@ import numpy as np
 import pyautogui as pg
 
 class Cursor():
-    def __init__(self):
-        self.vid = cv.VideoCapture(0)
+    def __init__(self, video_capture):
+        self.vid = video_capture
         self.window = cv.namedWindow("AIR", cv.WINDOW_NORMAL)
-        cv.resizeWindow("AIR", (500,500))
         self.motion = True
         self.myColorValues = [[51, 53, 255]]
         self.myColors = [[0, 80, 231, 179, 208, 255]]
@@ -92,7 +91,9 @@ class Cursor():
 
 def main():
 
-    obj = Cursor()
+    vid = cv.VideoCapture(0)
+
+    obj = Cursor(vid)
     obj.move()
 
 main()
