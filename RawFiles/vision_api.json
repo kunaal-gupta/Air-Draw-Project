@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "calm-pagoda-337903",
+  "private_key_id": "9c4a7203f2c4a4ccca5e9dde5a791e7027a00676",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDP0RUt1ZbC1dYt\nycLlr2PzRQOgBgxtcdlj5sad+aWz/3OoPnUSk7FX7X160m7g6AAb+b/06M+OaTmz\ntm1YdBaWJ5ARUHYKsok7HvIi4DRsEAIqidoJWmTwZ422vDCh6bfLOPWr3/Zjxr1J\nASbAGtgtUVdF7dTHJHSimWuAQAtZiVPxbJzD2IqKUjAo2l8i09Wni3yvLnJKSb5w\ncrgVsqYzECXS2RtKIDYr8r8NCsFkPgUm29s+17xLK7c776TxXve8QqRe+D74dDo2\nQuD0Y8JgrxW815M4Jf1h32N/b2pOu9UKcZb+M9aDD4pL9q27nzPHz5laIW2Gkvxt\n8mDIFl9vAgMBAAECggEADNGWT1n17zW2fOONoJJVhXtz0kqdOKEFqkphZPwxsu0m\narHTkd5HWaeeDlXtnfThkNgydX5o0x19gC7YBtU+UWvGULMYXOePXHS3tdwDj8jb\nAVm4d8w6HrQcgzGPhGVAv4nXaY8qiRQIt/iYtc/SFtWGHxug/NmsUh1JisMokBCy\nhqYfnbxY8QqUpB0XO9rf73Jpdnxi1+esMBge9qv3Q+WLiCp4+4WQpXMnnWzJXGu+\npgv64FjULNG5HieCaFzbTpHMThobeB55kCBkmnEbz8PCmvKCDWPZaxicSut7d4ot\nYRT4WzEJCiPl6bxjzeuKMZ/lFmKWcosyBaCQYIGcqQKBgQDoVDTixKLY1o79L5su\n5hJvYO5dX9FcycafjY425l5ZaSOmT3vFIJR7ZEUuEe1oL42s56WVNXVEsopYHY6w\nOEfBhZA93o1hPb7jWDjzJH3y4fMfU2arqQV+Mtnl4bkvQeWpKbAKYDzJYncks9xM\nB/K/hdpbX7Py1pYVlRps5HfyBwKBgQDk/YdgFM59x+5IHNJvB5XgGM5lg76meJhk\nh33xUZgAK+9B4eloJcZcIvoHnold0MiYOHWjI3Zh1X6DkjpKccR+6vuNGxl8eeWF\nDt3m636yqFXrSOpVmLIQ/3X/l9YvtpNuAbo1DploTqt0d7EpOd+tt3S0yzzi4krS\nVxzJ/mgtWQKBgHatFPrFYT4Mk6wHVmjlg4M7a2dtG6AfPgOgpoWqtYVMrLY2oc23\nb8F8Hc6Dv9bZe7BYAAAw938pCHwsVQf1J8pV9LF17pg+lzTAiw7AlEmuW6ejza1g\nQHsPdLj1zcezDKKVteQG9uYUEzI/YgfAg6KLuFe2klA4hx/tMztulUqfAoGBAIse\nnIh7G5i/Rrz5Bb/+08d6SqrSB5oL2kn5J0LdV4ODLbDRF4T2rjR763uFjd85YSVZ\n595dRSbbFinJRTDFPaP+DyYDONCvHgpgpeANYsQYEVsIyZWHV2eMTJwkGzSRr7A9\nzGs/m2QLp47yyOdLCeH4eyb78tnEscBovEzcC17BAoGAEe8P30CBBDqq6WngrwiX\nRnWNE9wp53B9bkpHE/GMDtuxH4ZPMNCRDQ3EKf969vFbgUcrUK/EpjD/EB5pAbJE\n1d6KPfptCjIISxpOAOSTwEDr7Tdiv50DZCM4my0njZXD98Ooo1xdFiE/tnQ1Gf73\ntZaGhIA1CT61gysYqqdU8cc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dynamic-dev@calm-pagoda-337903.iam.gserviceaccount.com",
+  "client_id": "104089838749061331382",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dynamic-dev%40calm-pagoda-337903.iam.gserviceaccount.com"
+}
