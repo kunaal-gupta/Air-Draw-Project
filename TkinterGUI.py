@@ -8,35 +8,47 @@ import webbrowser
 import turtle
 
 
-
+""" Functions for GUI """
 def resize(frame, scale):
     """Resizing an image, Video or live video """
-
     width = int(frame.shape[1] * scale)  # Accessing width from the frame & increasing it by scale times
     height = int(frame.shape[0] * scale)  # Accessing height from the frame & increasing it by scale times
-
     dimensions = (width, height)
 
     return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
-AppOpener.run("Ada's Team Work.txt") # Opens whatsapp if installed
 
+def Readme():
+    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
+    webbrowser.get(chrome_path).open_new('https://github.com/kunaal-gupta/SmartHandUtil/blob/main/README')
+
+
+def GettingStarted():
+    file = open('About.txt')
+    text = file.read()
+    messagebox.showinfo("About SmartHandUtil", text)
+
+
+# AppOpener.run("Ada's Team Work.txt")  # Opens whatsapp if installed
+
+''' Tkinter Window'''
 screen = tk.Tk()
 screen.wm_title('HackED Beta Project - SmartHandUtil')
 screen.geometry('800x600')
-screen.resizable(0,0)
+screen.resizable(0, 0)
 
+'''Canvus on Tkinter'''
 canvas = tk.Canvas(screen)
 canvas.config(width=700, height=500, background='grey')
-canvas.place(x= 50, y= 50)
+canvas.place(x=50, y=50)
 root = turtle.TurtleScreen(canvas)
 canvas.create_text(30, -240, text="Welcome to SmartHandUtil", fill="black", font=('Helvetica 15 bold'))
 
-
+'''Logo initialization on Tkinter'''
 t = turtle.RawTurtle(root, shape="turtle")
 # s = turtle.Screen()
 t.speed(1000)
-i =50
+i = 50
 t.width(2)
 t.pensize(0)
 count = 0
@@ -49,13 +61,12 @@ while True:
 
 
     else:
-        count +=1
-        t.setposition(x = 0, y = -50)
+        count += 1
+        t.setposition(x=0, y=-50)
         t.forward(2)
         color = ['red', 'blue', 'green', 'black']
         fillcolor = ['orange', 'darkblue', 'darkgreen', 'brown']
         for i in range(4):
-
             t.begin_fill()
             t.color(color[i], fillcolor[i])
             t.right(90)
@@ -84,44 +95,33 @@ while True:
 
 canvas.destroy()
 
-photo = tkinter.PhotoImage(file =r"Icons/writing.png")
-Click = tkinter.PhotoImage(file =r"Icons/clicker.png")
-mic = tkinter.PhotoImage(file =r"Icons/microphone.png")
-
-orange = tkinter.PhotoImage(file = r"Icons/orange.png")
-blue = tkinter.PhotoImage(file = r"Icons/blue.png")
-green = tkinter.PhotoImage(file = r"Icons/green.png")
-yellow = tkinter.PhotoImage(file = r"Icons/yellow.png")
-black = tkinter.PhotoImage(file = r"Icons/black.png")
+'''Icons for different choice'''
+photo = tkinter.PhotoImage(file=r"Icons/writing.png")
+Click = tkinter.PhotoImage(file=r"Icons/clicker.png")
+mic = tkinter.PhotoImage(file=r"Icons/microphone.png")
 
 
-text = '''SmartHandUtil (Basic Edition)
-
-Built on November 6, 2022
-Developers: Kunaal Gupta & Aaryan Singh
-
-This project aims to address a major problem faced by many users with severe or permanent disability in their arms / hands which hinders their ability to operate a computer using a keyboard & mouse'''
-
-def Readme():
-    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-    webbrowser.get(chrome_path).open_new('https://github.com/kunaal-gupta/SmartHandUtil/blob/main/README')
-
-def GettingStarted():
-    messagebox.showinfo("About SmartHandUtil", text)
+"""Color panel for pen """
+orange = tkinter.PhotoImage(file=r"Icons/orange.png")
+blue = tkinter.PhotoImage(file=r"Icons/blue.png")
+green = tkinter.PhotoImage(file=r"Icons/green.png")
+yellow = tkinter.PhotoImage(file=r"Icons/yellow.png")
+black = tkinter.PhotoImage(file=r"Icons/black.png")
 
 
+
+'''Menu bar in GUI '''
 menubar = tkinter.Menu(screen)
 
 FileMenu = tkinter.Menu(screen, tearoff=0)
-FileMenu.add_command(label = 'Open')
-FileMenu.add_command(label = 'Save as')
-FileMenu.add_command(label = 'Settings')
-FileMenu.add_command(label = 'Exit', command=screen.destroy)
+FileMenu.add_command(label='Open')
+FileMenu.add_command(label='Save as')
+FileMenu.add_command(label='Settings')
+FileMenu.add_command(label='Exit', command=screen.destroy)
 
 EditMenu = tk.Menu(screen, tearoff=0)
 EditMenu.add_command(label='Undo')
 EditMenu.add_command(label='Clear')
-
 
 HelpMenu = tk.Menu(screen, tearoff=0)
 HelpMenu.add_command(label='About', command=Readme)
@@ -134,36 +134,30 @@ menubar.add_cascade(label='Help', menu=HelpMenu)
 
 screen.config(menu=menubar)
 
-B = tk.Button(screen, height=50, width=50,   text='General Use Cursor', image=Click, activebackground='lightgrey', border=3 )
-B.place(x= 20, y = 20)
+''' Buttons on GUI '''
+B = tk.Button(screen, height=50, width=50, text='General Use Cursor', image=Click, activebackground='lightgrey', border=3)
+B.place(x=20, y=20)
+B = tk.Button(screen, height=50, width=50, text='Draw in Air', image=photo, activebackground='lightgrey', border=3)
+B.place(x=20, y=90)
+B = tk.Button(screen, height=50, width=50, text='Use voice to action', image=mic, activebackground='lightgrey',border=3)
+B.place(x=20, y=160)
 
-B = tk.Button(screen, height=50, width=50, text='Draw in Air', image=photo, activebackground='lightgrey',  border=3 )
-B.place(x= 20, y = 90)
+B = tk.Button(screen, height=30, width=35, border=0, image=orange)
+B.place(x=90, y=20)
+B = tk.Button(screen, height=30, width=35, border=0, image=black)
+B.place(x=135, y=20)
+B = tk.Button(screen, height=30, width=35, border=0, image=blue)
+B.place(x=180, y=20)
+B = tk.Button(screen, height=30, width=35, border=0, image=yellow)
+B.place(x=225, y=20)
+B = tk.Button(screen, height=30, width=35, border=0, image=green)
+B.place(x=270, y=20)
 
-B = tk.Button(screen, height=50, width=50, text='Use voice to action', image=mic, activebackground='lightgrey',  border=3 )
-B.place(x= 20, y = 160)
-
-
-B = tk.Button(screen, height=30, width=35,  border=0, image=orange)
-B.place(x= 90, y = 20)
-B = tk.Button(screen, height=30, width=35,  border=0, image=black)
-B.place(x= 135, y = 20)
-B = tk.Button(screen, height=30, width=35,  border=0, image=blue)
-B.place(x= 180, y = 20)
-B = tk.Button(screen, height=30, width=35,  border=0, image=yellow)
-B.place(x= 225, y = 20)
-B = tk.Button(screen, height=30, width=35,  border=0, image=green)
-B.place(x= 270, y = 20)
-# B = tk.Button(screen, height=32, width=35,  border=0, image=orange)
-# B.place(x= 315, y = 20)
-
-
-
+""" Video on GUI """
 video = tk.Label(screen)
 
-video.place(bordermode=tk.OUTSIDE, x= 550, y = 400)
+video.place(bordermode=tk.OUTSIDE, x=550, y=400)
 capture = cv.VideoCapture(0)
-
 
 while True:
     isTrue, frame = capture.read()  # Captures the video frame by frame & isTrue bolean indicating whether it's successful or not
@@ -172,12 +166,11 @@ while True:
     cv2image = cv.cvtColor(rframe, cv.COLOR_BGR2RGBA)
     img = Image.fromarray(cv2image)
     imgtk = ImageTk.PhotoImage(image=img)
-    #Setting the image on the label
+    # Setting the image on the label
     video.config(image=imgtk)
-    screen.update() #Updates the Tkinter window
+    screen.update()  # Updates the Tkinter window
 
 capture.release()
 cv.destroyWindow()
-
 
 screen.mainloop()

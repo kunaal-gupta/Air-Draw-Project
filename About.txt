@@ -1,0 +1,6 @@
+SmartHandUtil (Basic Edition)
+
+Built on November 6, 2022
+Developers: Kunaal Gupta & Aaryan Singh
+
+This project aims to address a major problem faced by many users with severe or permanent disability in their arms / hands which hinders their ability to operate a computer using a keyboard & mouse

@@ -1,7 +1,13 @@
 import turtle
 
 
-t = turtle.Turtle()
+canvas = tk.Canvas(screen)
+canvas.config(width=700, height=500, background='grey')
+canvas.place(x=50, y=50)
+root = turtle.TurtleScreen(canvas)
+canvas.create_text(30, -240, text="Welcome to SmartHandUtil", fill="black", font=('Helvetica 15 bold'))
+
+t = turtle.RawTurtle(root, shape="turtle")
 s = turtle.Screen()
 t.speed(1000)
 i = 50
