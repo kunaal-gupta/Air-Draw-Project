@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox, QHBo
                              QPushButton, QRadioButton, QVBoxLayout, QMessageBox)
 import sys
 from AirDraw import airdraw
+from cursorMove import Cursor
+from VoiceToAction import VtoA
 
 class WidgetGallery(QDialog):
     def __init__(self, parent=None):
@@ -59,16 +61,16 @@ class WidgetGallery(QDialog):
 
         if b.text() == "General Use Cursor":
             if b.isChecked() == True:
-                Obj = airdraw()
-                Obj.run()
+                Obj = Cursor()
+                Obj.move()
         elif b.text() == "Draw in Air":
             if b.isChecked() == True:
                 Obj = airdraw()
                 Obj.run()
         elif b.text() == "Use voice to action":
             if b.isChecked() == True:
-                Obj = airdraw()
-                Obj.run()
+                Obj = VtoA()
+                Obj.main_run()
 
 
     def readme(self):
@@ -84,13 +86,15 @@ class WidgetGallery(QDialog):
         self.readme.setLayout(layout)
 
     def openReadMe(self):
+
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
 
-        msg.setText("SmartHand Developed by Dynamic-Dev")
-        msg.setInformativeText("This is additional information")
-        msg.setWindowTitle("About SmartHand")
-        msg.setDetailedText("The details are as follows:")
+        msg.setText("SmartHandUtil by Team Dynamic-Dev")
+        msg.setInformativeText("by Kunaal & Aaryan")
+        msg.setWindowTitle("About Project")
+
+        msg.setDetailedText('This project was focused to build innovative solution for disabled people - i.e those who have lost their hand.')
         msg.setStandardButtons(QMessageBox.Ok)
         retval = msg.exec_()
 

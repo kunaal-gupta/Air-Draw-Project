@@ -6,7 +6,7 @@ import time
 import subprocess as sp
 import os
 
-pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:/Users/kunaa/AppData/Local/Tesseract-OCR/tesseract.exe'
 
 class VtoA():
     def _init_(self):
@@ -19,7 +19,7 @@ class VtoA():
         print('converted to BGR')
         return screenshot
 
-    def ss_to_text(self, search_text):
+    def ss_to_text(self):
         screenshot = self.take_screenshot()
         # gaussian blur for more efficiency of OTSU's thresh
         gray = cv.cvtColor(screenshot, cv.COLOR_BGR2GRAY)
@@ -35,20 +35,14 @@ class VtoA():
             x,y,width,height = cv.boundingRect(cnt)
             textimg = image2[y:y+height, x:x+width]
             text = pytesseract.image_to_string(textimg)
-            if text == search_text:
-                return x,y,width,height
+            print(text)
 
         return None
 
 
     def main_run(self):
         time.sleep(2)
-        self.ss_to_text()  #TODO
+        self.ss_to_text()
         cv.waitKey(0)
         cv.destroyAllWindows()
 
-def main():
-    obj = VtoA()+
-    obj.main_run()
-
-main()
