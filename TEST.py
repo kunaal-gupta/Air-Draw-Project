@@ -6,10 +6,14 @@ import AppOpener
 from tkinter import messagebox
 import webbrowser
 import turtle
-import keyboard
 from AirDraw import airdraw
+import cv2 as cv
+import numpy as np
+import pyautogui as pg
 
-""" Functions for GUI """
+
+
+myPoints = []  ## [x, y, colorId]
 def resize(frame, scale):
     """Resizing an image, Video or live video """
     width = int(frame.shape[1] * scale)  # Accessing width from the frame & increasing it by scale times
@@ -18,23 +22,19 @@ def resize(frame, scale):
 
     return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
-
 def Readme():
     chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
     webbrowser.get(chrome_path).open_new('https://github.com/kunaal-gupta/SmartHandUtil/blob/main/README')
-
 
 def GettingStarted():
     file = open('About.txt')
     text = file.read()
     messagebox.showinfo("About SmartHandUtil", text)
 
-# def AirDraw():
-#     Obj = airdraw()
-#     Obj.run()
+
+    return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
 
-# AppOpener.run("Ada's Team Work.txt")  # Opens whatsapp if installed
 
 ''' Tkinter Window'''
 screen = tk.Tk()
@@ -42,63 +42,7 @@ screen.wm_title('HackED Beta Project - SmartHandUtil')
 screen.geometry('800x600')
 screen.resizable(0, 0)
 
-'''Canvus on Tkinter'''
-canvas = tk.Canvas(screen)
-canvas.config(width=700, height=500, background='grey')
-canvas.place(x=50, y=50)
-root = turtle.TurtleScreen(canvas)
-canvas.create_text(30, -240, text="Welcome to SmartHandUtil", fill="black", font=('Helvetica 15 bold'))
 
-'''Logo initialization on Tkinter'''
-t = turtle.RawTurtle(root, shape="turtle")
-# s = turtle.Screen()
-t.speed(1000)
-i = 50
-t.width(2)
-t.pensize(0)
-count = 0
-
-while True:
-    if count == 5:
-        t.clear()
-        root.clearscreen
-        break
-
-
-    else:
-        count += 1
-        t.setposition(x=0, y=-50)
-        t.forward(2)
-        color = ['red', 'blue', 'green', 'black']
-        fillcolor = ['orange', 'darkblue', 'darkgreen', 'brown']
-        for i in range(4):
-            t.begin_fill()
-            t.color(color[i], fillcolor[i])
-            t.right(90)
-            t.circle(110, extent=180)
-
-            t.forward(190)
-            t.circle(20, 180)
-            t.forward(140)
-            t.right(180)
-
-            t.forward(190)
-            t.circle(20, 180)
-            t.forward(170)
-            t.right(180)
-
-            t.forward(185)
-            t.circle(20, 180)
-            t.forward(185)
-            t.right(180)
-
-            t.forward(150)
-            t.circle(20, 180)
-            t.forward(170)
-            t.right(180)
-            t.end_fill()
-
-canvas.destroy()
 
 '''Icons for different choice'''
 photo = tkinter.PhotoImage(file=r"Icons/writing.png")
@@ -167,13 +111,46 @@ capture = cv.VideoCapture(0)
 while True:
     isTrue, frame = capture.read()  # Captures the video frame by frame & isTrue bolean indicating whether it's successful or not
     rframe = resize(frame, 0.3)
+    kframe = rframe.copy()
+    imgFlip = cv.flip(kframe, 1)
 
-    cv2image = cv.cvtColor(rframe, cv.COLOR_BGR2RGBA)
+    if WRITE:
+        newPoints = findColor(imgFlip, myColors)
+
+        if len(newPoints) != 0:
+            for newP in newPoints:
+                myPoints.append(newP)
+
+                # pg.moveTo(newPoints[0][0]*multiplier, newPoints[0][1]*multiplier)
+                # print(pg.position())
+
+    if len(myPoints) != 0:
+        drawOnCanvus(myPoints, myColorValues)
+        draw_lines(myPoints, myColorValues)
+
+    cv2image = cv.cvtColor(imgFlip, cv.COLOR_BGR2RGBA)
     img = Image.fromarray(cv2image)
+
     imgtk = ImageTk.PhotoImage(image=img)
+
+
     # Setting the image on the label
     video.config(image=imgtk)
+
     screen.update()  # Updates the Tkinter window
+    if not SHOW:
+        cv.resizeWindow("Air", 60, 30)
+    key = cv.waitKey(1) & 0xFF # break the loop if key 'c' is pressed
+
+
+    if key == ord('h'):
+        print('h is pressed')
+        if WRITE:
+            WRITE = False
+            myPoints.append('skip')
+        else:
+            WRITE = True
+
 
 
 capture.release()

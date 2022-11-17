@@ -1,4 +1,4 @@
-from cv2 import cv2 as cv
+import cv2 as cv
 import numpy as np
 import pyautogui as pg
 
@@ -106,10 +106,12 @@ class airdraw():
             if not self.SHOW:
                 cv.resizeWindow("Air", 60, 30)
             key = cv.waitKey(1) & 0xFF # break the loop if key 'c' is pressed
+            print(key)
 
             if key == ord('q'):
                 break
             elif key == ord('h'):
+                print('h is pressed')
                 if self.WRITE:
                     self.WRITE = False
                     self.myPoints.append('skip')
