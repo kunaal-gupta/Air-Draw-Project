@@ -29,10 +29,6 @@ def GettingStarted():
     text = file.read()
     messagebox.showinfo("About SmartHandUtil", text)
 
-# def AirDraw():
-#     Obj = airdraw()
-#     Obj.run()
-
 
 # AppOpener.run("Ada's Team Work.txt")  # Opens whatsapp if installed
 

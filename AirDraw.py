@@ -133,7 +133,7 @@ class airdraw():
       # Destroy all window
 
 
-if __name__ == '__main__':
-    obj = airdraw()
-    obj.run()
+# if __name__ == '__main__':
+obj = airdraw()
+obj.run()
 

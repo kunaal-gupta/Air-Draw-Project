@@ -1,14 +1,12 @@
 import cv2 as cv
 import numpy as np
-import pyautogui as pg
 from PIL import Image, ImageTk
 import tkinter as tk
 import keyboard
 import tkinter
 from tkinter import messagebox
 import webbrowser
-
-
+import turtle
 
 screen = tk.Tk()
 screen.wm_title('HackED Beta Project - SmartHandUtil')
@@ -20,16 +18,68 @@ THICKNESS = 10
 WRITE = False
 SHOW = True
 
-
 myColors = [[0, 80, 231, 179, 208, 255]]
-# [ 98, 67, 182, 125, 255, 255]
 myColorValues = [[51, 53, 255]]
 
 myPoints = []  ## [x, y, colorId]
 
+'''Canvus on Tkinter'''
+canvas = tk.Canvas(screen)
+canvas.config(width=700, height=500, background='grey')
+canvas.place(x=50, y=50)
+root = turtle.TurtleScreen(canvas)
+canvas.create_text(30, -240, text="Welcome to SmartHandUtil", fill="black", font=('Helvetica 15 bold'))
 
-# create window
-width, height = pg.size()
+'''Logo initialization on Tkinter'''
+t = turtle.RawTurtle(root, shape="turtle")
+# s = turtle.Screen()
+t.speed(1000)
+i = 50
+t.width(2)
+t.pensize(0)
+count = 0
+
+while True:
+    if count == 3:
+        t.clear()
+        root.clearscreen
+        break
+    else:
+        count += 1
+        t.setposition(x=0, y=-50)
+        t.forward(10)
+        color = ['red', 'blue', 'green', 'black']
+        fillcolor = ['orange', 'darkblue', 'darkgreen', 'brown']
+        for i in range(4):
+            t.begin_fill()
+            t.color(color[i], fillcolor[i])
+            t.right(90)
+            t.circle(110, extent=180)
+
+            t.forward(190)
+            t.circle(20, 180)
+            t.forward(140)
+            t.right(180)
+
+            t.forward(190)
+            t.circle(20, 180)
+            t.forward(170)
+            t.right(180)
+
+            t.forward(185)
+            t.circle(20, 180)
+            t.forward(185)
+            t.right(180)
+
+            t.forward(150)
+            t.circle(20, 180)
+            t.forward(170)
+            t.right(180)
+            t.end_fill()
+
+canvas.destroy()
+
+
 # window = cv.namedWindow("Air",cv.WINDOW_FULLSCREEN)
 def Readme():
     chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
@@ -41,6 +91,7 @@ def GettingStarted():
     text = file.read()
     messagebox.showinfo("About SmartHandUtil", text)
 
+
 def resize(frame, scale):
     """Resizing an image, Video or live video """
     width = int(frame.shape[1] * scale)  # Accessing width from the frame & increasing it by scale times
@@ -49,7 +100,8 @@ def resize(frame, scale):
 
     return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
-def findColor( img, myColors):
+
+def findColor(img, myColors):
     imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
     count = 0
     newPoints = []
@@ -63,11 +115,11 @@ def findColor( img, myColors):
         if x != 0 and y != 0:
             newPoints.append([x, y, count])
         count += 1
-    # cv.imshow('image', mask)
 
     return newPoints
 
-def Contours( img):
+
+def Contours(img):
     contours, hierarchy = cv.findContours(img, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     x, y, w, h = 0, 0, 0, 0
     for cnt in contours:
@@ -79,28 +131,41 @@ def Contours( img):
             x, y, w, h = cv.boundingRect(approx)
     return (x + w // 2), y
 
-def drawOnCanvus( myPoints, myColorValues):
+
+def drawOnCanvus(myPoints, myColorValues):
     for point in myPoints:
         if point != 'skip':
             cv.circle(imgFlip, (point[0], point[1]), 1, myColorValues[0], 10, lineType=-1)
 
-    if len(myPoints)>1:
+    if len(myPoints) > 1:
         if myPoints[-1] != 'skip' and myPoints[-2] != 'skip':
             last = myPoints[-1]
             lastS = myPoints[-2]
-            cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]),myColorValues[0], THICKNESS)
+            cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]), myColorValues[0], THICKNESS)
         elif len(myPoints) > 2 and myPoints[-2] != 'skip':
             last = myPoints[-2]
             lastS = myPoints[-3]
             cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]), myColorValues[0], THICKNESS)
 
-def draw_lines( myPoints, myColorValues):
 
+def draw_lines(myPoints, myColorValues):
     for index in range(len(myPoints)):
-        if index > 0 and (myPoints[index] != 'skip' and myPoints[index-1] != 'skip'):
+        if index > 0 and (myPoints[index] != 'skip' and myPoints[index - 1] != 'skip'):
             last = myPoints[index]
-            lastS = myPoints[index-1]
+            lastS = myPoints[index - 1]
             cv.line(imgFlip, (last[0], last[1]), (lastS[0], lastS[1]), myColorValues[0], 10)
+
+
+def air_draw():
+    global WRITE
+    tk.messagebox.showinfo("Air Draw Info",
+                           "You are about to enable air draw feature of this project.\nPress 'h' to play & pause. Press q to quite")
+
+    if WRITE:
+        WRITE = False
+        myPoints.append('skip')
+    else:
+        WRITE = True
 
 
 '''Icons for different choice'''
@@ -108,15 +173,12 @@ photo = tkinter.PhotoImage(file=r"Icons/writing.png")
 Click = tkinter.PhotoImage(file=r"Icons/clicker.png")
 mic = tkinter.PhotoImage(file=r"Icons/microphone.png")
 
-
 """Color panel for pen """
 orange = tkinter.PhotoImage(file=r"Icons/orange.png")
 blue = tkinter.PhotoImage(file=r"Icons/blue.png")
 green = tkinter.PhotoImage(file=r"Icons/green.png")
 yellow = tkinter.PhotoImage(file=r"Icons/yellow.png")
 black = tkinter.PhotoImage(file=r"Icons/black.png")
-
-
 
 '''Menu bar in GUI '''
 menubar = tkinter.Menu(screen)
@@ -143,11 +205,14 @@ menubar.add_cascade(label='Help', menu=HelpMenu)
 screen.config(menu=menubar)
 
 ''' Buttons on GUI '''
-B = tk.Button(screen, height=50, width=50, text='General Use Cursor', image=Click, activebackground='lightgrey', border=3)
+B = tk.Button(screen, height=50, width=50, text='General Use Cursor', image=Click, activebackground='lightgrey',
+              border=3)
 B.place(x=20, y=20)
-B = tk.Button(screen, height=50, width=50, text='Draw in Air', image=photo, activebackground='lightgrey', border=3)
+B = tk.Button(screen, height=50, width=50, text='Draw in Air', image=photo, activebackground='lightgrey', border=3,
+              command=air_draw)
 B.place(x=20, y=90)
-B = tk.Button(screen, height=50, width=50, text='Use voice to action', image=mic, activebackground='lightgrey',border=3)
+B = tk.Button(screen, height=50, width=50, text='Use voice to action', image=mic, activebackground='lightgrey',
+              border=3)
 B.place(x=20, y=160)
 
 B = tk.Button(screen, height=30, width=35, border=0, image=orange)
@@ -161,12 +226,10 @@ B.place(x=225, y=20)
 B = tk.Button(screen, height=30, width=35, border=0, image=green)
 B.place(x=270, y=20)
 
-
 video = tk.Label(screen)
 
 video.place(bordermode=tk.OUTSIDE, x=100, y=100)
 capture = cv.VideoCapture(0)
-
 
 while True:
     isTrue, img = capture.read()  # Captures the video frame by frame & isTrue boolean indicating whether it's successful or not
@@ -193,31 +256,19 @@ while True:
     video.config(image=imgtk)
     screen.update()  # Updates the Tkinter window
 
-
-    # minimize window when in pressed 'k'
-    # if not SHOW:
-    # #     cv.resizeWindow("Air", 60, 30)
-    # key = cv.waitKey(1) & 0xFF # break the loop if key 'c' is pressed
-    # print(key)
-
     if keyboard.is_pressed("q"):
         print('q')
 
         break
     elif keyboard.is_pressed("h"):
-
-        print('h')
+        print('h is pressed')
         if WRITE:
             WRITE = False
             myPoints.append('skip')
         else:
             WRITE = True
 
-
-
 capture.release()
 cv.destroyWindow()
 
 screen.mainloop()
-
-import keyboard
